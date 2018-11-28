@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="F:\software\zjqc\as\demo\demo\hMSSdkBase\src\main\assets"/><source path="F:\software\zjqc\as\demo\demo\hMSSdkBase\build\generated\assets\shaders\debug"/></dataSet><dataSet config="debug"><source path="F:\software\zjqc\as\demo\demo\hMSSdkBase\src\debug\assets"/></dataSet></merger>
