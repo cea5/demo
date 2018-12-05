@@ -2,6 +2,8 @@ package com.depart.cea.test1;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.depart.cea.test1.net.CollectionService;
 import com.huawei.android.hms.agent.HMSAgent;
 import com.huawei.android.hms.agent.common.handler.ConnectHandler;
 import com.huawei.android.hms.agent.push.handler.DeleteTokenHandler;
@@ -42,14 +45,27 @@ public class MainActivity extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 IgnoringBatteryOptimizations(this);
             }
-//            startService(new Intent(this, CollectionService.class));
+            startService(new Intent(this, CollectionService.class));
 //            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 //            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 //                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, 5000, PendingIntent.getService(this, 1, new Intent(this, CollectionService.class),PendingIntent.FLAG_CANCEL_CURRENT));
 //            }
-//            PushManager.getInstance().initialize(this.getApplicationContext(), DemoPushService.class);
-//            PushManager.getInstance().registerPushIntentService(this.getApplicationContext(), DemoIntentService.class);
         }
+        //创建通知栏通道
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Log.e(TAG, "Build.VERSION.SDK_INT: "+Build.VERSION.SDK_INT);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("id", "name", importance);
+            channel.setDescription("description");
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }else {
+            Log.e(TAG, "Build.VERSION.SDK_INT: "+Build.VERSION.SDK_INT);
+        }
+
+
         HMSAgent.connect(this, new ConnectHandler() {
             @Override
             public void onConnect(int rst) {

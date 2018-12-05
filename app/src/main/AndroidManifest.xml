@@ -64,7 +64,7 @@
             </intent-filter>
         </activity>
 
-         华为推送开始
+         <!--华为推送开始-->
          <activity
          android:name="com.huawei.android.hms.agent.common.HMSAgentActivity"
          android:configChanges="orientation|locale|screenSize|layoutDirection|fontScale"
@@ -116,7 +116,7 @@
          <meta-data
          android:name="com.huawei.hms.client.appid"
          android:value="appid=100246135" />
-         华为推送结束
+         <!--华为推送结束-->
 
         <service
             android:name=".MyService"
@@ -161,12 +161,6 @@
         <service
             android:name=".MyJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-        <service
-            android:name=".DemoPushService"
-            android:enabled="true"
-            android:exported="true"
-            android:label="PushService"
-            android:process=":pushservice" />
         <service
             android:name=".DemoIntentService"/>
     </application>

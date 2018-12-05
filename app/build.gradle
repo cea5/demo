@@ -51,6 +51,5 @@ dependencies {
     androidTestCompile 'com.android.support.test:runner:1.0.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'
     compile 'com.zhy:okhttputils:2.6.2'
-    compile 'com.getui:sdk:2.12.3.0'
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:appcompat-v7:27.1.0'
 }

@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -25,8 +26,6 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.depart.cea.test1.MyReceiver;
 import com.depart.cea.test1.R;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,9 +35,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import okhttp3.Call;
-import okhttp3.Request;
 
 /**
  * Created by zhongpeng on 18/3/25.
@@ -60,11 +56,11 @@ public class CollectionService extends Service {
 
     @Override
     public void onCreate() {
-        Notification.Builder mBuilder =
-                new Notification.Builder(this)
-                        .setSmallIcon(R.drawable.ic_launcher_background)
-                        .setContentTitle("My notification")
-                        .setContentText("定位中...");
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "id")
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentTitle("title")
+                .setContentText("content")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
         Notification notification = mBuilder.build();
         notification.flags = Notification.FLAG_ONGOING_EVENT;
         notification.flags |= Notification.FLAG_NO_CLEAR;
@@ -72,6 +68,10 @@ public class CollectionService extends Service {
 
         startForeground(1, notification);
 
+//        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+//        notificationManager.notify(1, mBuilder.build());
+
+        Toast.makeText(this, "startForeground", Toast.LENGTH_LONG).show();
         mLocationClient = new LocationClient(getApplication());
         mLocationClient.registerLocationListener(myListener);
 //        mLocationClient.enableLocInForeground(1, new Notification());
@@ -85,12 +85,12 @@ public class CollectionService extends Service {
         option.setScanSpan(60 * 1000);
         mLocationClient.setLocOption(option);
 
-
-        if (mLocationClient.isStarted()) {
-            mLocationClient.restart();
-        } else {
-            mLocationClient.start();
-        }
+        //开始定位
+//        if (mLocationClient.isStarted()) {
+//            mLocationClient.restart();
+//        } else {
+//            mLocationClient.start();
+//        }
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_BOOT_COMPLETED);
@@ -164,40 +164,40 @@ public class CollectionService extends Service {
 //        RingtoneManagerUtil.playRing(CollectionService.this);
 
         for (GpsPosition position : posList) {
-            OkHttpUtils
-                    .post()
-                    .url("http://183.129.255.154:8085/ssm1/" + "position/PositionInsert")
-                    .addParams("simno", simno)
-                    .addParams("imsi", imsi)
-                    .addParams("imei", imei)
-                    .addParams("starnum", position.getStarnum() + "")
-                    .addParams("gtime", position.getGtime() + "")
-                    .addParams("x", position.getX() + "")
-                    .addParams("y", position.getY() + "")
-                    .addParams("speed", position.getSpeed() + "")
-                    .addParams("radius", position.getRadius() + "")
-                    .build()
-                    .execute(new StringCallback() {
-                        @Override
-                        public void onBefore(Request request, int id) {
-                            super.onBefore(request, id);
-                        }
-
-                        @Override
-                        public void onAfter(int id) {
-                            super.onAfter(id);
-                        }
-
-                        @Override
-                        public void onError(Call call, Exception e, int id) {
-                            Toast.makeText(CollectionService.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                        }
-
-                        @Override
-                        public void onResponse(String response, int id) {
-                            parseSendInfo(response);
-                        }
-                    });
+//            OkHttpUtils
+//                    .post()
+//                    .url("http://183.129.255.154:8085/ssm1/" + "position/PositionInsert")
+//                    .addParams("simno", simno)
+//                    .addParams("imsi", imsi)
+//                    .addParams("imei", imei)
+//                    .addParams("starnum", position.getStarnum() + "")
+//                    .addParams("gtime", position.getGtime() + "")
+//                    .addParams("x", position.getX() + "")
+//                    .addParams("y", position.getY() + "")
+//                    .addParams("speed", position.getSpeed() + "")
+//                    .addParams("radius", position.getRadius() + "")
+//                    .build()
+//                    .execute(new StringCallback() {
+//                        @Override
+//                        public void onBefore(Request request, int id) {
+//                            super.onBefore(request, id);
+//                        }
+//
+//                        @Override
+//                        public void onAfter(int id) {
+//                            super.onAfter(id);
+//                        }
+//
+//                        @Override
+//                        public void onError(Call call, Exception e, int id) {
+//                            Toast.makeText(CollectionService.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+//                        }
+//
+//                        @Override
+//                        public void onResponse(String response, int id) {
+//                            parseSendInfo(response);
+//                        }
+//                    });
         }
     }
 

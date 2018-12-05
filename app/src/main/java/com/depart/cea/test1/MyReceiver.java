@@ -14,10 +14,12 @@ public class MyReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         switch (intent.getAction()) {
             case Intent.ACTION_SCREEN_OFF:
+                Toast.makeText(context, "ACTION_SCREEN_OFF！！！！！！！！！！！", Toast.LENGTH_LONG).show();
                 Log.i(TAG, "onReceive: ACTION_SCREEN_OFF");
                 KeepLiveActivity.startKeepAlive();
                 break;
             case Intent.ACTION_SCREEN_ON:
+                Toast.makeText(context, "ACTION_SCREEN_ON！！！！！！！！！！！", Toast.LENGTH_LONG).show();
                 Log.i(TAG, "onReceive: ACTION_SCREEN_ON");
                 KeepLiveActivity.killKeepAlive();
                 break;
